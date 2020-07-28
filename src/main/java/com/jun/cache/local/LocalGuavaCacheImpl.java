@@ -6,6 +6,7 @@ import com.google.common.collect.Maps;
 import com.jun.cache.CacheService;
 import com.jun.cache.config.LocalCacheProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.Map;
@@ -17,12 +18,17 @@ import java.util.function.Function;
  * @author ：userzhou
  * @date ：Created in 2020
  */
+
 public class LocalGuavaCacheImpl implements CacheService {
 
-    @Autowired
+
     private LocalCacheProperties localCacheProperties;
 
     private static Map<String, Cache<String,Object>> cacheMap = Maps.newConcurrentMap();
+
+    public LocalGuavaCacheImpl(LocalCacheProperties localCacheProperties){
+        this.localCacheProperties = localCacheProperties;
+    }
 
     public LocalGuavaCacheImpl(){
         Cache<String, Object> cache = CacheBuilder.newBuilder()
@@ -36,12 +42,12 @@ public class LocalGuavaCacheImpl implements CacheService {
     }
 
     @Override
-    public <T> void set(String key, Object T) {
-        set(key,T,localCacheProperties.getAfterWriteExpire());
+    public <T> void set(String key, T obj) {
+        set(key,obj,localCacheProperties.getAfterWriteExpire());
     }
 
     @Override
-    public <T> void set(String key, Object T, Long expireTime) {
+    public <T> void set(String key, T obj, Long expireTime) {
 
         if(StringUtils.isEmpty(key)){
             return;
@@ -50,7 +56,7 @@ public class LocalGuavaCacheImpl implements CacheService {
 
         Cache<String, Object> cache = getCache(expireTime);
 
-        cache.put(key,T);
+        cache.put(key,obj);
     }
 
     @Override

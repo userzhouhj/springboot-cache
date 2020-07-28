@@ -1,0 +1,15 @@
+spring:
+  redis:
+    host: 192.168.163.111
+    port: 6379
+    lettuce:
+      pool:
+        max-idle: 8
+        min-idle: 0
+
+cache:
+  local:
+    guava:
+      maxSize: 10000
+      afterWriteExpire: 600
+      afterAccessExpire: 600

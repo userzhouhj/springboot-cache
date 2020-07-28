@@ -10,18 +10,18 @@ public interface CacheService {
     /**
      * 设置缓存
      * @param key 缓存键
-     * @param T 缓存实体
+     * @param obj 缓存实体
      */
-    <T extends Object> void set(String key,Object T);
+    <T extends Object> void set(String key,T obj);
 
     /**
      * 设置缓存添加过期时间
      * @param key 缓存键
-     * @param T 缓存实体
+     * @param obj 缓存实体
      * @param expireTime 固体时间 毫秒
      *
      */
-    <T extends Object> void set(String key,Object T,Long expireTime);
+    <T extends Object> void set(String key,T obj,Long expireTime);
 
     /**
      * 获取缓存
