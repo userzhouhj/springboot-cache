@@ -2,22 +2,23 @@ package com.jun.cache.custom;
 
 import java.util.HashMap;
 
+
 /**
  * 自定义LRU缓存
  * @author ：userzhou
  * @date ：Created in 2020
  */
-public class CustomLRUCache<K,V> {
+public class CustomLRUCache<V>{
 
     /**
      * 存储k对用链表中的node
      */
-    private HashMap<K,Node<V>> keyNodeMap;
+    private HashMap<String,Node<V>> keyNodeMap;
 
     /**
      * 存储链表中node对应的k
      */
-    private HashMap<Node<V>,K> nodeKayMap;
+    private HashMap<Node<V>,String> nodeKayMap;
 
     private Long capacity;
 
@@ -33,7 +34,8 @@ public class CustomLRUCache<K,V> {
         this.nodeList = new DoubleLinkedList<>();
     }
 
-    public void setCache(K key,V value){
+
+    public void setCache(String key, V value){
 
         if(keyNodeMap.containsKey(key)){
             Node<V> vNode = keyNodeMap.get(key);
@@ -44,7 +46,7 @@ public class CustomLRUCache<K,V> {
 
             if(keyNodeMap.size() == this.capacity){
                 Node<V> headNode = nodeList.removeHeadNode();
-                K removeKey = nodeKayMap.get(headNode);
+                String removeKey = nodeKayMap.get(headNode);
                 keyNodeMap.remove(removeKey);
                 nodeKayMap.remove(headNode);
             }
@@ -53,25 +55,6 @@ public class CustomLRUCache<K,V> {
             nodeKayMap.put(newNode,key);
 
             nodeList.addNode(newNode);
-        }
-    }
-
-    public V getCache(K key){
-        if(keyNodeMap.containsKey(key)){
-            Node<V> vNode = keyNodeMap.get(key);
-            nodeList.moveNodeToTail(vNode);
-
-            return vNode.getValue();
-        }
-
-        return null;
-    }
-
-    public void getAllCAche(){
-        Node<V> head = nodeList.getHead();
-        while(head != null){
-            System.out.println(head.getValue());
-            head = head.getNext();
         }
     }
 }
